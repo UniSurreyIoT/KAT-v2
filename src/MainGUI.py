@@ -41,6 +41,7 @@ class Ui_Form(QtGui.QWidget):
         self.setupUi(self)
         self.Data=[]
         self.DataDimension=[]
+        self.outDA=[]
 
 #add self.Form=Form it is required for future steps
     def setupUi(self, Form):
@@ -391,11 +392,16 @@ class Ui_Form(QtGui.QWidget):
         if not path.isEmpty():
             with open(unicode(path), 'wb') as stream:
                 writer = csv.writer(stream)
-                [a,b]=self.Data.shape
+                print(type(self.outDA))
+                print(type(self.Data))
+                [a,b]=self.outDA.shape
+                print(a)
+                print(b)
                 for row in range(a):
                     rowdata = []
                     for column in range(b):
-                        item = self.Data.item(row, column)
+                        item = self.outDA.iloc[row,column]
+                        #print(item)
                         if item is not None:
                             rowdata.append(item)
                         else:
@@ -512,6 +518,7 @@ class Ui_Form(QtGui.QWidget):
             if (self.comboBox_7.currentText()=='F-ResamplePAA'):win=self.lineEdit_7.text()
             if (self.comboBox_8.currentText()=='F-ResamplePAA'):win=self.lineEdit_8.text()
             Output=am.Main()
+            self.outDA=Output
             print Output
             ax = self.figure.add_subplot(111)
             ax.hold(False)
